@@ -100,11 +100,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
         //begin Keycloak integration
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        SimpleKeycloakAccount details =(SimpleKeycloakAccount) authentication.getDetails();
-        String username = details.getKeycloakSecurityContext().getToken().getPreferredUsername();
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        SimpleKeycloakAccount authenticationDetails =
+                (SimpleKeycloakAccount) authentication.getDetails();
+
+        String username = authenticationDetails.getKeycloakSecurityContext()
+                .getToken().getPreferredUsername();
 
         //end Keycloak integration
+
         UserDTO currentUserDTO = userService.findByUserName(username);
 
         User user = userMapper.convertToEntity(currentUserDTO);

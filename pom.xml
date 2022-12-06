@@ -65,8 +65,8 @@
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-legacy-spring-boot-starter</artifactId>
-            <version>18.0.2</version>
+            <artifactId>keycloak-spring-boot-starter</artifactId>
+            <version>18.0.0</version>
         </dependency>
     </dependencies>
 
