@@ -1,6 +1,7 @@
 package com.cydeo.controller;
 
 
+import com.cydeo.annotation.ExecutionTime;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.exception.TicketingProjectException;
@@ -25,6 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ExecutionTime
     @GetMapping("")
     @RolesAllowed({"Manager", "Admin"})
     @Operation(summary = "Get Users")
@@ -38,6 +40,7 @@ public class UserController {
         );
     }
 
+    @ExecutionTime
     @GetMapping("/{username}")
     @RolesAllowed("Admin")
     @Operation(summary = "Get User by username")
