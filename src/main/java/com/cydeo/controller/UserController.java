@@ -44,7 +44,7 @@ public class UserController {
     @GetMapping("/{username}")
     @RolesAllowed("Admin")
     @Operation(summary = "Get User by username")
-    public ResponseEntity<ResponseWrapper> getUserByUserName(@PathVariable("username") String userName) {
+    public ResponseEntity<ResponseWrapper> getUserByUserName(@PathVariable("username") String userName) throws TicketingProjectException {
 
         return ResponseEntity.ok(
                 new ResponseWrapper("User by username",
@@ -70,7 +70,7 @@ public class UserController {
     @PutMapping("")
     @RolesAllowed("Admin")
     @Operation(summary = "Update User")
-    public ResponseEntity<ResponseWrapper> updateUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseWrapper> updateUser(@RequestBody UserDTO userDTO) throws TicketingProjectException {
 
         userService.update(userDTO);
         return ResponseEntity

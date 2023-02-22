@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,9 +28,7 @@ public class UserServiceImpl implements UserService {
     private final TaskService taskService;
     private final KeycloakService keycloakService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
-                           @Lazy ProjectService projectService, @Lazy TaskService taskService,
-                           KeycloakService keycloakService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy ProjectService projectService, @Lazy TaskService taskService, KeycloakService keycloakService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
@@ -40,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findByUserName(String username) {
         User user = userRepository.findByUserNameAndIsDeleted(username, false);
+        if (user == null) throw new NoSuchElementException("User not found");
         return userMapper.convertToDto(user);
     }
 
@@ -50,14 +50,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(UserDTO user) {
+    public UserDTO save(UserDTO user) {
 
         user.setEnabled(true);
 
         User obj = userMapper.convertToEntity(user);
 
-        userRepository.save(obj);
-        keycloakService.userCreate(user);   // creating
+        User savedUser = userRepository.save(obj);
+
+        keycloakService.userCreate(user);
+
+        return userMapper.convertToDto(savedUser);
+
     }
 
 //    @Override
@@ -83,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @DefaultExceptionMessage(defaultMessage = "Failed to delete User")
+    @DefaultExceptionMessage(defaultMessage = "Failed to delete user")
     public void delete(String username) throws TicketingProjectException {
 
         User user = userRepository.findByUserNameAndIsDeleted(username, false);
@@ -92,8 +96,8 @@ public class UserServiceImpl implements UserService {
             user.setIsDeleted(true);
             user.setUserName(user.getUserName() + "-" + user.getId());  // harold@manager.com-2
             userRepository.save(user);
-        } else {
-            throw new TicketingProjectException("No such user!!");
+        }else{
+            throw new TicketingProjectException("User can not be deleted");
         }
 
     }
