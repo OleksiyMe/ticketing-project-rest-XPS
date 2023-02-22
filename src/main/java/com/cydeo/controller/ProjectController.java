@@ -4,6 +4,7 @@ package com.cydeo.controller;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -80,7 +81,7 @@ public class ProjectController {
 
     @GetMapping("/manager/project-status")
     @RolesAllowed("Manager")
-    public ResponseEntity<ResponseWrapper> getProjectByManager() {
+    public ResponseEntity<ResponseWrapper> getProjectByManager() throws TicketingProjectException {
         return ResponseEntity.ok(
                 new ResponseWrapper("See all projects for manager",
                         projectService.listAllProjectDetails(),

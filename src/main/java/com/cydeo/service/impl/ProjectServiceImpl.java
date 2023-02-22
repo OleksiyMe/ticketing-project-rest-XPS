@@ -5,6 +5,7 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
+import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.ProjectRepository;
@@ -98,7 +99,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectDTO> listAllProjectDetails() {
+    public List<ProjectDTO> listAllProjectDetails() throws TicketingProjectException {
         //begin Keycloak integration
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();

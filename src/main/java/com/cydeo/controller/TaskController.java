@@ -4,6 +4,7 @@ package com.cydeo.controller;
 import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.enums.Status;
+import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,7 @@ public class TaskController {
 
     @GetMapping("/employee/pending-tasks")
     @RolesAllowed("Employee")
-    public ResponseEntity<ResponseWrapper> employeePendingTasks() {
+    public ResponseEntity<ResponseWrapper> employeePendingTasks() throws TicketingProjectException {
 
         List<TaskDTO> taskDTOList = taskService.listAllTasksByStatusIsNot(Status.COMPLETE);
 
@@ -104,7 +105,7 @@ public class TaskController {
 
     @GetMapping("/employee/archive")
     @RolesAllowed("Employee")
-    public ResponseEntity<ResponseWrapper> employeeArchivedTasks() {
+    public ResponseEntity<ResponseWrapper> employeeArchivedTasks() throws TicketingProjectException {
 
         List<TaskDTO> taskDTOList =taskService.listAllTasksByStatus(Status.COMPLETE);
         return ResponseEntity.ok(new ResponseWrapper(
