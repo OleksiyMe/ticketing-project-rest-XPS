@@ -26,7 +26,7 @@ public class TaskController {
 
     @GetMapping
     @RolesAllowed("Manager")
-   // @ResponseStatus(HttpStatus.OK)
+   // @ResponseStatus(HttpStatus.OK)   -- default behavior
     public ResponseEntity<ResponseWrapper> getTasks() {
 
         return ResponseEntity.ok(new ResponseWrapper(
@@ -48,6 +48,7 @@ public class TaskController {
 
     @PostMapping
     @RolesAllowed("Manager")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ResponseWrapper> createTask(@RequestBody TaskDTO taskDTO) {
         taskService.save(taskDTO);
 
