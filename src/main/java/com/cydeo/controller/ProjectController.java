@@ -49,7 +49,7 @@ public class ProjectController {
 
     @PostMapping("")
     @RolesAllowed({"Admin", "Manager"})
-    public ResponseEntity<ResponseWrapper> createProject(@RequestBody ProjectDTO projectDTO) {
+        public ResponseEntity<ResponseWrapper> createProject(@RequestBody ProjectDTO projectDTO) {
         projectService.save(projectDTO);
         return ResponseEntity.ok(
                 new ResponseWrapper("Project created",

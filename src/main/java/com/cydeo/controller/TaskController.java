@@ -6,6 +6,7 @@ import com.cydeo.dto.TaskDTO;
 import com.cydeo.enums.Status;
 import com.cydeo.exception.TicketingProjectException;
 import com.cydeo.service.TaskService;
+import com.google.common.base.Preconditions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class TaskController {
 
     @GetMapping
     @RolesAllowed("Manager")
+   // @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ResponseWrapper> getTasks() {
 
         return ResponseEntity.ok(new ResponseWrapper(
@@ -94,6 +96,7 @@ public class TaskController {
     @PutMapping("/employee/update")
     @RolesAllowed("Employee")
     public ResponseEntity<ResponseWrapper> employeeUpdateTasks(@RequestBody TaskDTO taskDTO) {
+       // Preconditions.checkNotNull(taskDTO);
 
         taskService.update(taskDTO);
 
@@ -106,6 +109,7 @@ public class TaskController {
     @GetMapping("/employee/archive")
     @RolesAllowed("Employee")
     public ResponseEntity<ResponseWrapper> employeeArchivedTasks() throws TicketingProjectException {
+
 
         List<TaskDTO> taskDTOList =taskService.listAllTasksByStatus(Status.COMPLETE);
         return ResponseEntity.ok(new ResponseWrapper(
