@@ -234,8 +234,7 @@ public class UserServiceUnitTest {
 
         when(projectService.listAllNonCompletedByAssignedManager(any())).thenReturn(List.of(new ProjectDTO(), new ProjectDTO()));
 
-        Throwable throwable =catchThrowable( ()->userService.delete(userDTO.getUserName()));
-
+        Throwable throwable = catchThrowable(() -> userService.delete(userDTO.getUserName()));
 
 
         assertInstanceOf(TicketingProjectException.class, throwable);
@@ -252,7 +251,7 @@ public class UserServiceUnitTest {
 
         when(taskService.listAllNonCompletedByAssignedEmployee(any())).thenReturn(List.of(new TaskDTO(), new TaskDTO()));
 
-        Throwable throwable =catchThrowable( ()->userService.delete(userDTO.getUserName()));
+        Throwable throwable = catchThrowable(() -> userService.delete(userDTO.getUserName()));
 
         assertInstanceOf(TicketingProjectException.class, throwable);
         assertEquals("User can not be deleted", throwable.getMessage());
@@ -279,7 +278,6 @@ public class UserServiceUnitTest {
 
         assertTrue(testUser.getIsDeleted());
         assertNotEquals("user3", testUser.getUserName());
-
 
 
     }
